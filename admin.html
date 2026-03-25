@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | SpeedPrint</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        #login-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f8fafc;
+        }
+
+        #dashboard {
+            display: none;
+        }
+
+        .status-select {
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--border-radius);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+        }
+
+        .action-btn {
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--border-radius);
+            font-size: 0.8rem;
+            cursor: pointer;
+            border: none;
+            background-color: #fee2e2;
+            color: #ef4444;
+            transition: var(--transition);
+        }
+
+        .action-btn:hover {
+            background-color: #fecaca;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+    <!-- Login Screen -->
+    <div id="login-screen">
+        <div class="card" style="width: 100%; max-width: 400px;">
+            <div class="text-center" style="margin-bottom: 2rem;">
+                <h2 style="color: var(--primary-color);">
+                    <i data-lucide="shield-check" style="width: 40px; height: 40px; margin-bottom: 1rem;"></i><br>
+                    Admin Access
+                </h2>
+                <p>Please enter the admin password</p>
+                <small style="color: var(--text-light);">(Hint: admin123)</small>
+            </div>
+            
+            <div class="form-group">
+                <input type="password" id="admin-password" class="form-control" placeholder="Password" required>
+            </div>
+            <button id="login-btn" class="btn btn-primary btn-block">Login</button>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard">
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+                <a href="index.html" class="nav-brand">
+                    <i data-lucide="hard-drive"></i>
+                    SpeedPrint Admin
+                </a>
+                
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <button id="clear-orders-btn" class="action-btn" style="padding: 0.5rem 1rem;">Clear All</button>
+                    <button id="logout-btn" class="btn btn-outline" style="padding: 0.5rem 1rem;">Logout</button>
+                </div>
+            </div>
+        </nav>
+
+        <section class="section">
+            <div class="container">
+                <h1 style="margin-bottom: 2rem;">Recent Orders</h1>
+                
+                <div class="card" style="padding: 0;">
+                    <div class="table-responsive">
+                        <table class="table" id="orders-table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Date</th>
+                                    <th>Customer</th>
+                                    <th>File & Specs</th>
+                                    <th>Total Price</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orders-body">
+                                <!-- Order rows will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div id="empty-state" class="text-center" style="display: none; padding: 4rem 2rem;">
+                    <i data-lucide="inbox" style="width: 64px; height: 64px; color: var(--text-light); margin-bottom: 1rem;"></i>
+                    <h3 style="color: var(--text-light);">No orders yet</h3>
+                    <p>When customers place orders, they will appear here.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" style="padding: 1.5rem 0;">
+        <div class="container text-center">
+            <p>&copy; 2026 SpeedPrint Admin Panel</p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script type="module" src="js/admin.js"></script>
+</body>
+</html>

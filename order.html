@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Now | SpeedPrint</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .order-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+        @media (max-width: 900px) {
+            .order-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-light">
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand">
+                <i data-lucide="printer"></i>
+                SpeedPrint
+            </a>
+            
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <i data-lucide="menu"></i>
+            </button>
+            
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#services">Services</a></li>
+                <li><a href="index.html#pricing">Pricing</a></li>
+                <li><a href="order.html" class="btn btn-primary active" style="color: white;">Order Now</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Order Flow -->
+    <section class="section" style="padding-top: 3rem;">
+        <div class="container">
+            <div class="order-layout">
+                <!-- Main Form Column -->
+                <div>
+                    <h1 style="margin-bottom: 2rem;">Place Your Order</h1>
+                    
+                    <!-- Step 1: Upload -->
+                    <div class="card" style="margin-bottom: 2rem;">
+                        <h2>1. Upload Document</h2>
+                        <div class="upload-zone" id="drop-zone">
+                            <i data-lucide="upload-cloud" class="upload-icon"></i>
+                            <h3 style="margin-bottom: 0.5rem;">Drag & Drop your file here</h3>
+                            <p>or click to browse (PDF, DOCX, JPG, PNG)</p>
+                            <input type="file" id="file-input" class="file-input" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                        </div>
+                        
+                        <div id="file-list" class="file-list" style="display: none;">
+                            <div class="file-item">
+                                <div class="file-info">
+                                    <i data-lucide="file" class="file-icon"></i>
+                                    <div>
+                                        <div id="file-name" style="font-weight: 600;">document.pdf</div>
+                                        <div id="file-size" style="font-size: 0.85rem; color: var(--text-light);">2.4 MB</div>
+                                    </div>
+                                </div>
+                                <button id="remove-file-btn" class="remove-file" aria-label="Remove file">
+                                    <i data-lucide="trash-2"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Manual Page Count Input (Since we can't always parse PDF length purely frontend easily) -->
+                        <div class="form-group" id="page-count-wrapper" style="margin-top: 1.5rem; display: none;">
+                            <label for="page-count">Number of Pages in Document</label>
+                            <input type="number" id="page-count" class="form-control" value="1" min="1" required style="max-width: 150px;">
+                            <p style="font-size: 0.85rem; margin-top: 0.5rem;">Please enter the exact number of pages in your document. We will verify before printing.</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Configuration -->
+                    <div class="card" id="config-section" style="opacity: 0.5; pointer-events: none;">
+                        <h2>2. Print Settings</h2>
+                        
+                        <div class="grid grid-2" style="margin-bottom: 1.5rem;">
+                            <!-- Print Type -->
+                            <div>
+                                <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Color Mode</label>
+                                <div class="radio-cards">
+                                    <label class="radio-card">
+                                        <input type="radio" name="color-mode" value="bw" checked>
+                                        <div class="radio-content">
+                                            <div class="radio-title">Black & White</div>
+                                            <div class="radio-price">From ₹2/page</div>
+                                        </div>
+                                    </label>
+                                    <label class="radio-card">
+                                        <input type="radio" name="color-mode" value="color">
+                                        <div class="radio-content">
+                                            <div class="radio-title">Color</div>
+                                            <div class="radio-price">₹10/page</div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Sides -->
+                            <div id="sides-container">
+                                <label style="display: block; font-weight: 600; margin-bottom: 0.5rem;">Sides</label>
+                                <div class="radio-cards">
+                                    <label class="radio-card">
+                                        <input type="radio" name="print-sides" value="single" checked>
+                                        <div class="radio-content">
+                                            <div class="radio-title">One-Sided</div>
+                                            <div class="radio-price">Standard</div>
+                                        </div>
+                                    </label>
+                                    <label class="radio-card">
+                                        <input type="radio" name="print-sides" value="double">
+                                        <div class="radio-content">
+                                            <div class="radio-title">Both-Sided</div>
+                                            <div class="radio-price">Duplex</div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-2" style="margin-bottom: 1.5rem;">
+                            <!-- Paper Size -->
+                            <div class="form-group">
+                                <label for="paper-size">Paper Size</label>
+                                <select id="paper-size" class="form-control">
+                                    <option value="a4">A4 (Standard)</option>
+                                    <option value="a3">A3 (Large)</option>
+                                    <option value="a5">A5 (Half A4)</option>
+                                    <option value="letter">Letter</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Binding -->
+                            <div class="form-group">
+                                <label for="binding-option">Binding</label>
+                                <select id="binding-option" class="form-control">
+                                    <option value="none">None (Loose papers)</option>
+                                    <option value="staple">Corner Staple (+₹5)</option>
+                                    <option value="spiral">Spiral Binding (+₹30)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Copies -->
+                        <div class="form-group" style="margin-bottom: 1.5rem;">
+                            <label>Number of Copies</label>
+                            <div class="quantity-control">
+                                <button type="button" class="quantity-btn" id="qty-minus">-</button>
+                                <input type="number" id="copies-count" class="quantity-input" value="1" min="1">
+                                <button type="button" class="quantity-btn" id="qty-plus">+</button>
+                            </div>
+                        </div>
+
+                        <!-- Notes -->
+                        <div class="form-group">
+                            <label for="order-notes">Additional Instructions / Page Range</label>
+                            <textarea id="order-notes" class="form-control" rows="3" placeholder="e.g. Print pages 2-5 only, use thick paper for cover..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column / Summary Pipeline -->
+                <div>
+                    <div class="card summary-panel" style="position: sticky; top: 90px;">
+                        <h2 style="margin-bottom: 1.5rem; color: white;">Order Summary</h2>
+                        
+                        <div class="summary-row">
+                            <span>Copies</span>
+                            <span id="summary-copies">1</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Pages</span>
+                            <span id="summary-pages">0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Print Type</span>
+                            <span id="summary-type">B&W (One-Sided)</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Binding</span>
+                            <span id="summary-binding">None</span>
+                        </div>
+                        
+                        <div class="summary-total">
+                            <span>Total Price</span>
+                            <span id="total-price">₹0</span>
+                        </div>
+                        
+                        <hr style="border-color: rgba(255, 255, 255, 0.2); margin: 1.5rem 0;">
+                        
+                        <h3 style="color: white; font-size: 1.2rem; margin-bottom: 1rem;">Your Details</h3>
+                        <div class="form-group">
+                            <input type="text" id="customer-name" class="form-control" placeholder="Full Name" required style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: white;">
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" id="customer-phone" class="form-control" placeholder="WhatsApp Number" required style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); color: white;">
+                        </div>
+                        
+                        <button id="submit-order-btn" class="btn btn-whatsapp btn-block" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 1rem; font-size: 1.1rem;" disabled>
+                            <i data-lucide="message-circle" style="width: 20px; height: 20px;"></i>
+                            Order via WhatsApp
+                        </button>
+                        
+                        <p style="font-size: 0.8rem; text-align: center; margin-top: 1rem; opacity: 0.8;">
+                            Payment will be collected at the shop or via UPI after confirmation.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container text-center">
+            <p>&copy; 2026 SpeedPrint. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script type="module" src="js/order.js"></script>
+</body>
+</html>
